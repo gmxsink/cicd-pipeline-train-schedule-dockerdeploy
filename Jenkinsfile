@@ -16,7 +16,7 @@ pipeline {
                 script {
                     app = docker.build("tedh06/train-schedule")
                     app.inside {
-                        sh "echo $(curl localhost:8080)'
+                        sh 'echo $(curl localhost:8080)'
                     }
                 }
             }
@@ -25,14 +25,14 @@ pipeline {
             when {
                 branch 'master'
             }
-        steps {
-            script {
-                docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
-                    app.push("${env.BUILD_NUMBER}")
-                    app.push("latest")
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                    }
                 }
             }
-        }
         }
     }
 }
